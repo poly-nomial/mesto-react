@@ -25,7 +25,7 @@ export class Api {
             .then(res => this._getResponseData(res));
     }
 
-    editUserInfo([newUserName, newUserDescription]) {
+    editUserInfo(newUserName, newUserDescription) {
         return fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/users/me`, {
             method: 'PATCH',
             headers: {
@@ -66,26 +66,26 @@ export class Api {
             .then(res => this._getResponseData(res));
     }
 
-    likeCard(cardId) {
-        return fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/cards/${cardId}/likes`, {
-            method: 'PUT',
-            headers: {
-                'authorization': this._token,
-                'Content-Type': 'application/json'
+    changeLikeCardStatus(cardId, isLiked) {
+        if (isLiked) {
+            return fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/cards/${cardId}/likes`, {
+                method: 'DELETE',
+                headers: {
+                    'authorization': this._token,
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(res => this._getResponseData(res));
+        } else {
+            return fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/cards/${cardId}/likes`, {
+                method: 'PUT',
+                headers: {
+                    'authorization': this._token,
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(res => this._getResponseData(res));
             }
-        })
-            .then(res => this._getResponseData(res));
-    }
-
-    dislikeCard(cardId) {
-        return fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/cards/${cardId}/likes`, {
-            method: 'DELETE',
-            headers: {
-                'authorization': this._token,
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(res => this._getResponseData(res));
     }
 
     updateAvatar(newAvatarLink) {
